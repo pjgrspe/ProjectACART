@@ -1,6 +1,5 @@
-package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components
+package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons
 
-import android.media.Image
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,7 +45,7 @@ fun PrimaryButton(
             // Display a loading indicator (e.g., CircularProgressIndicator)
             CircularProgressIndicator(
                 color = AppTheme.colorScheme.onPrimary,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(AppTheme.sizes.medium)
             )
         } else {
             Text(
@@ -199,9 +198,6 @@ fun ClickableTextPreview() {
     }
 }
 
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun PrimaryButtonPreview() {
@@ -236,15 +232,4 @@ fun PrimaryButtonPreview() {
         }
 
     }
-}
-
-@Preview
-@Composable
-fun IconButtonTest() {
-    Icon(
-        imageVector = Icons.Default.Done,
-        contentDescription = "Test Icon",
-        modifier = Modifier.size(48.dp),
-        tint = AppTheme.colorScheme.primary
-    )
 }

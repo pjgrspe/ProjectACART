@@ -1,4 +1,4 @@
-package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.bottomnav
+package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.bottomnav
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -53,6 +53,7 @@ data class AppShape(
 
 //size
 data class AppSize(
+    val tiny: Dp,
     val small: Dp,
     val normal: Dp,
     val medium: Dp,
@@ -106,6 +107,7 @@ val LocalAppShape = staticCompositionLocalOf<AppShape> {
 
 val LocalAppSize = staticCompositionLocalOf<AppSize> {
     AppSize(
+        tiny = Dp.Unspecified,
         small = Dp.Unspecified,
         normal = Dp.Unspecified,
         medium = Dp.Unspecified,
