@@ -65,10 +65,10 @@ fun BottomNavigationBar() {
     //Main navigation bar with rounded corners and elevated background
     NavigationBar(
         modifier = Modifier
-            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+            .clip(RoundedCornerShape(topStart = AppTheme.sizes.medium, topEnd = AppTheme.sizes.medium))
             .height(90.dp),
         containerColor = AppTheme.colorScheme.background,
-        tonalElevation = 8.dp
+        tonalElevation = AppTheme.sizes.small
     ) {
         items.forEachIndexed { index, item ->
             //check if item is selected
@@ -89,7 +89,7 @@ fun BottomNavigationBar() {
                             selectedItemIndex = index  //Update selected item on tap
                         })
                     }
-                    .padding(vertical = 8.dp),  //Add vertical padding to each item
+                    .padding(vertical = AppTheme.sizes.small),  //Add vertical padding to each item
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -105,12 +105,12 @@ fun BottomNavigationBar() {
                         contentDescription = item.title,
                         tint = iconColor,
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(AppTheme.sizes.large)
                             .graphicsLayer(scaleX = scale.value, scaleY = scale.value)  // Apply bounce scale
                     )
                 }
 
-                Spacer(modifier = Modifier.height(4.dp))  // Space between icon and text
+                Spacer(modifier = Modifier.height(AppTheme.sizes.tiny))  // Space between icon and text
 
                 //Display the title of the item, with bold font if selected
                 Text(

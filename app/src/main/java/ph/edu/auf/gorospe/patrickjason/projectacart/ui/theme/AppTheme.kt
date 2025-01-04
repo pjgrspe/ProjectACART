@@ -130,6 +130,7 @@ private val shapes = AppShape(
 )
 
 private val sizes = AppSize(
+    tiny = 4.dp,
     small = 8.dp,
     normal = 12.dp,
     medium = 16.dp,

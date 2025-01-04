@@ -25,7 +25,7 @@ fun ProgressIndicator(currentStep: Int, totalSteps: Int) {
         repeat(totalSteps) { index ->
             Box(
                 modifier = Modifier
-                    .size(width = 40.dp, height = 10.dp)
+                    .size(width = 40.dp, height = 5.dp)
                     .padding(horizontal = 4.dp)
                     .background(
                         color = if (index < currentStep) Color.Black else Color.Gray,
