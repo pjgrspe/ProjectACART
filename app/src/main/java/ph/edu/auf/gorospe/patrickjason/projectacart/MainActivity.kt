@@ -43,16 +43,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 //SetBarColor(color = AppTheme.colorScheme.background)
                 Scaffold(
-//                    topBar = { MyTopAppBar(title = "Project A Cart", showActionButton = false) }, TEST ONLY
-//                    bottomBar = { BottomNavigationBar() }, TEST ONLY
+
                     modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    MainScreen() //TEST ONLY
-//                    RegistrationScreen() //TEST ONLY
-//                    LoginScreen() //TEST ONLY
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
+
                     AppNavigation(navController = navController)
                 }
             }
