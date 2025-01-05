@@ -52,14 +52,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    @Composable
-    //SET ANDROID STATUS BAR COLOR
-    private fun SetBarColor(color: Color){
-        val systemUIController = rememberSystemUiController()
-        SideEffect {
-            systemUIController.setSystemBarsColor(color = color)
-        }
-    }
 }
 
 @Composable
