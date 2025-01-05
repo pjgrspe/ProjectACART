@@ -14,16 +14,18 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.co
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.SearchSection
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.TopBar
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen() {
+    val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize().background(AppTheme.colorScheme.background)
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         TopBar()
         SearchSection()
-        MapArea()
+        MapArea(context)
         HistorySection()
     }
 }
