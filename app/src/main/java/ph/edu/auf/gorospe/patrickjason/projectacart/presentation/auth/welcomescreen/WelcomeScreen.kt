@@ -12,16 +12,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.PrimaryButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.SecondaryAltButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 
-@Preview(
-    showSystemUi = true // Optional: Adds the system UI to better preview screen layout
-)
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     // Check if dark theme is active
     val isDarkTheme = isSystemInDarkTheme()
     val backgroundImage = if (isDarkTheme) R.drawable.bg_dark else R.drawable.bg_light
@@ -79,13 +77,13 @@ fun WelcomeScreen() {
 
                 PrimaryButton(
                     label = "Log in",
-                    onClick = { /* Handle login */ },
+                    onClick = { navController.navigate("login") },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 SecondaryAltButton(
                     label = "Create account",
-                    onClick = { /* Handle account creation */ },
+                    onClick = { navController.navigate("registration") },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(32.dp))

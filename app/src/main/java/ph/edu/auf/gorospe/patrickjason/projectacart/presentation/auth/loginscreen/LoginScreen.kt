@@ -20,12 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.PrimaryButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
 
 @Composable
 fun LoginScreen(
 //    onLogin: () -> Unit
+    navcontroller: NavController
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -72,6 +74,18 @@ fun LoginScreen(
         PrimaryButton(
             label = "Login",
             onClick = { /*onLogin()*/ }
+        )
+
+        //Debug Registration Nav button
+        PrimaryButton(
+            label = "Navigate to Registration",
+            onClick = { navcontroller.navigate("registration") }
+        )
+
+        //Debug Main Screen Nav Button
+        PrimaryButton(
+            label = "Navigate to Main",
+            onClick = { navcontroller.navigate("main") }
         )
     }
 }
