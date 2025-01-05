@@ -44,17 +44,9 @@ class MainActivity : ComponentActivity() {
                 //SET ANDROID STATUS BAR COLOR
 //                SetBarColor(color = AppTheme.colorScheme.background)
                 Scaffold(
-//                    topBar = { MyTopAppBar(title = "Project A Cart", showActionButton = false) }, TEST ONLY
-//                    bottomBar = { BottomNavigationBar() }, TEST ONLY
+
                     modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    MainScreen() //TEST ONLY
-//                    RegistrationScreen() //TEST ONLY
-//                    LoginScreen() //TEST ONLY
-//                    WelcomeScreen() //TEST ONLY
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
+
                     AppNavigation(navController = navController)
                 }
             }
