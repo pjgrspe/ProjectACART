@@ -17,10 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen.components.AccountDetailsStep
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen.components.ProfilePictureStep
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen.components.ProgressIndicator
 
 @Composable
 fun RegistrationScreen(
 //    onRegister: () -> Unit
+    navController: NavController
 ) {
     var currentStep by remember { mutableStateOf(1) }
     val totalSteps = 2  // Adjust if you add more steps
