@@ -41,8 +41,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 val navController = rememberNavController()
-                //SET ANDROID STATUS BAR COLOR
-//                SetBarColor(color = AppTheme.colorScheme.background)
+                //SetBarColor(color = AppTheme.colorScheme.background)
                 Scaffold(
 //                    topBar = { MyTopAppBar(title = "Project A Cart", showActionButton = false) }, TEST ONLY
 //                    bottomBar = { BottomNavigationBar() }, TEST ONLY
@@ -50,7 +49,6 @@ class MainActivity : ComponentActivity() {
 //                    MainScreen() //TEST ONLY
 //                    RegistrationScreen() //TEST ONLY
 //                    LoginScreen() //TEST ONLY
-//                    WelcomeScreen() //TEST ONLY
 //                    Greeting(
 //                        name = "Android",
 //                        modifier = Modifier.padding(innerPadding)
@@ -67,21 +65,5 @@ class MainActivity : ComponentActivity() {
         SideEffect {
             systemUIController.setSystemBarsColor(color = color)
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AppTheme {
-        Greeting("Android")
     }
 }
