@@ -32,8 +32,8 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.text
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldDark
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldLight
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.topappbar.MyTopAppBar
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
