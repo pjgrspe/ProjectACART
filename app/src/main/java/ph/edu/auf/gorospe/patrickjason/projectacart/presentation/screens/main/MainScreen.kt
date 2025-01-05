@@ -46,10 +46,13 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.GrayMedium
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.PrimaryDarker
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 fun MainScreen(navController: NavController) {
+  val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetScaffoldState()
     var bottomSheetContent by remember { mutableStateOf<Pair<String, String>?>(null) }
@@ -92,6 +95,12 @@ fun BottomSheetContent(time: String, route: String) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        TopBar()
+        SearchSection(context)
+        MapArea(context)
+        HistorySection()
+
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center

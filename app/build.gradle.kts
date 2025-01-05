@@ -65,6 +65,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.storage)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.play.services.location)
+
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
@@ -80,4 +83,10 @@ dependencies {
     implementation(libs.android)
     // If you're using compose also add the compose extension
     implementation(libs.maps.compose)
+
+    //google location
+    implementation(libs.play.services.location.v2101)
+    implementation(libs.android.v1040)
+
+
 }
