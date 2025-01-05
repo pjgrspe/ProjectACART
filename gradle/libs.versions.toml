@@ -1,6 +1,9 @@
 [versions]
 accompanistSystemuicontroller = "0.28.0"
 agp = "8.7.2"
+android = "11.9.0"
+autofill = "2.7.0"
+discover = "2.7.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -9,10 +12,14 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.3"
 composeBom = "2024.04.01"
+mapsCompose = "11.9.0"
+placeAutocomplete = "2.7.0"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+android = { module = "com.mapbox.maps:android", version.ref = "android" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+autofill = { module = "com.mapbox.search:autofill", version.ref = "autofill" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -26,6 +33,12 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+mapbox-search-android = { module = "com.mapbox.search:mapbox-search-android", version.ref = "autofill" }
+mapbox-search-android-ui = { module = "com.mapbox.search:mapbox-search-android-ui", version.ref = "autofill" }
+maps-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapsCompose" }
+offline = { module = "com.mapbox.search:offline", version.ref = "autofill" }
+search-discover = { module = "com.mapbox.search:discover", version.ref = "discover" }
+search-place-autocomplete = { module = "com.mapbox.search:place-autocomplete", version.ref = "placeAutocomplete" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

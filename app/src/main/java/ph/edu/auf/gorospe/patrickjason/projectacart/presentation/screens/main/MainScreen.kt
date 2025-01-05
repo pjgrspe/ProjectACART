@@ -10,15 +10,17 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.co
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.MapArea
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.SearchSection
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.TopBar
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun MainScreen() {
+    val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize().background(Color(0xFFFFF7E8))
     ) {
         TopBar()
         SearchSection()
-        MapArea()
+        MapArea(context)
         HistorySection()
     }
 }
