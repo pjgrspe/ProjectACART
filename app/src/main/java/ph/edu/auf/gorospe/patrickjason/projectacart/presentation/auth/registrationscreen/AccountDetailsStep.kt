@@ -24,6 +24,18 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.text
 @Composable
 fun AccountDetailsStep(onNext: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        // Name Field
+        StyledTextField(
+            value = "",
+            onValueChange = { /* Handle username input */ },
+            label = "Name",
+            leadingIcon = Icons.Default.Person,
+            leadingIconContentDescription = "Username Icon"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+
         // Username Field
         StyledTextField(
             value = "",
@@ -40,6 +52,17 @@ fun AccountDetailsStep(onNext: () -> Unit) {
             value = "",
             onValueChange = { /* Handle password input */ },
             label = "Password",
+            leadingIcon = Icons.Default.Lock,
+            leadingIconContentDescription = "Password Icon"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Re-enter Password Field
+        StyledTextField(
+            value = "",
+            onValueChange = { /* Handle password input */ },
+            label = "Re-enter Password",
             leadingIcon = Icons.Default.Lock,
             leadingIconContentDescription = "Password Icon"
         )

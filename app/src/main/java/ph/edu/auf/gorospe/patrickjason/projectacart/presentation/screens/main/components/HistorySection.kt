@@ -22,7 +22,7 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 
 @Composable
-fun PreviousRoutesSection() {
+fun HistorySection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -38,12 +38,12 @@ fun PreviousRoutesSection() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Text("2:05")
-                Text("SM City Clark")
+                Text("14:05")
+                Text("AUF")
             }
             Column {
-                Text("2:31")
-                Text("AUF")
+                Text("14:31")
+                Text("SM City Clark")
             }
             IconButton(onClick = { /* TODO: Navigate */ }) {
                 Icon(
