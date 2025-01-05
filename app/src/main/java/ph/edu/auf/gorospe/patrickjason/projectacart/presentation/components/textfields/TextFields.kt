@@ -30,12 +30,14 @@ fun StyledTextField(
     trailingIcon: ImageVector? = null,
     trailingIconContentDescription: String? = null,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .padding(horizontal = AppTheme.sizes.small) // Ensure it respects the parent's width
+    ) { // Ensure it takes the parent's full width
         // Static label text above the text field
         Text(
             text = label,
             color = AppTheme.colorScheme.onBackground,
-//            style = MaterialTheme.typography.bodyMedium, // Customize as per your theme
             style = AppTheme.typography.body1,
             modifier = Modifier.padding(bottom = AppTheme.sizes.small)
         )
@@ -51,14 +53,16 @@ fun StyledTextField(
                 focusedBorderColor = AppTheme.colorScheme.onBackground,
                 unfocusedBorderColor = AppTheme.colorScheme.onBackground
             ),
-            singleLine = true,
+            singleLine = true, // Restrict to a single line
+            maxLines = 1, // Prevent vertical overflow
+            modifier = Modifier.fillMaxWidth(),
             leadingIcon = {
                 if (leadingIcon != null) {
                     Icon(
                         imageVector = leadingIcon,
                         contentDescription = leadingIconContentDescription,
                         tint = AppTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(AppTheme.sizes.large)
+                        modifier = Modifier.size(AppTheme.sizes.medium)
                     )
                 }
             },
@@ -68,7 +72,7 @@ fun StyledTextField(
                         imageVector = trailingIcon,
                         contentDescription = trailingIconContentDescription,
                         tint = AppTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(AppTheme.sizes.large)
+                        modifier = Modifier.size(AppTheme.sizes.medium)
                     )
                 }
             }
