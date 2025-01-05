@@ -30,7 +30,10 @@ fun StyledTextField(
     trailingIcon: ImageVector? = null,
     trailingIconContentDescription: String? = null,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) { // Ensure it takes the parent's full width
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .padding(horizontal = AppTheme.sizes.small) // Ensure it respects the parent's width
+    ) { // Ensure it takes the parent's full width
         // Static label text above the text field
         Text(
             text = label,
@@ -52,14 +55,14 @@ fun StyledTextField(
             ),
             singleLine = true, // Restrict to a single line
             maxLines = 1, // Prevent vertical overflow
-            modifier = Modifier.fillMaxWidth(), // Ensure it respects the parent's width
+            modifier = Modifier.fillMaxWidth(),
             leadingIcon = {
                 if (leadingIcon != null) {
                     Icon(
                         imageVector = leadingIcon,
                         contentDescription = leadingIconContentDescription,
                         tint = AppTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(AppTheme.sizes.large)
+                        modifier = Modifier.size(AppTheme.sizes.medium)
                     )
                 }
             },
@@ -69,7 +72,7 @@ fun StyledTextField(
                         imageVector = trailingIcon,
                         contentDescription = trailingIconContentDescription,
                         tint = AppTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(AppTheme.sizes.large)
+                        modifier = Modifier.size(AppTheme.sizes.medium)
                     )
                 }
             }

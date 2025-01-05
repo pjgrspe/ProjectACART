@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.FirebaseApp
 import ph.edu.auf.gorospe.patrickjason.projectacart.navigation.AppNavigation
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.BottomNavigationBar
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.loginscreen.LoginScreen
@@ -31,21 +32,20 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.text
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldDark
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldLight
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.topappbar.MyTopAppBar
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         enableEdgeToEdge()
         setContent {
             AppTheme {
                 val navController = rememberNavController()
                 //SetBarColor(color = AppTheme.colorScheme.background)
                 Scaffold(
-
                     modifier = Modifier.fillMaxSize()) { innerPadding ->
-
                     AppNavigation(navController = navController)
                 }
             }
