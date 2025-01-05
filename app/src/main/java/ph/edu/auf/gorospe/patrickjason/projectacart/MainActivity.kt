@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.FirebaseApp
 import ph.edu.auf.gorospe.patrickjason.projectacart.navigation.AppNavigation
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.BottomNavigationBar
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.loginscreen.LoginScreen
@@ -31,7 +32,6 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.text
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldDark
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldLight
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.topappbar.MyTopAppBar
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 import android.Manifest
 import android.content.pm.PackageManager
@@ -39,11 +39,14 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
+
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         enableEdgeToEdge()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -54,26 +57,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                //SetBarColor(color = AppTheme.colorScheme.background)
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavigation(navController = navController)
                 }
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AppTheme {
-        Greeting("Android")
+    @Composable
+    //SET ANDROID STATUS BAR COLOR
+    private fun SetBarColor(color: Color){
+        val systemUIController = rememberSystemUiController()
+        SideEffect {
+            systemUIController.setSystemBarsColor(color = color)
+        }
     }
 }

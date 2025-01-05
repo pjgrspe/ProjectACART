@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.impl.AccountServiceImpl
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.PrimaryButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
 
@@ -29,6 +33,13 @@ fun LoginScreen(
 //    onLogin: () -> Unit
     navcontroller: NavController
 ) {
+    //Backend stuff
+    val accountService = AccountServiceImpl(FirebaseFirestore.getInstance())
+    val coroutineScope = rememberCoroutineScope()
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+
+    //Credentials
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -73,7 +84,16 @@ fun LoginScreen(
         // Login Button
         PrimaryButton(
             label = "Login",
-            onClick = { /*onLogin()*/ }
+            onClick = {
+                coroutineScope.launch {
+                    accountService.signIn(
+                        email = username,
+                        password = password,
+                        onSuccess = { navcontroller.navigate("main") },
+                        onFailure = { e -> errorMessage = e.message }
+                    )
+                }
+            }
         )
 
         //Debug Registration Nav button
