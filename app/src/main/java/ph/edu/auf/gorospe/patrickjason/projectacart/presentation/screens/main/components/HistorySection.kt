@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
@@ -53,5 +54,13 @@ fun HistorySection() {
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HistorySectionPreview() {
+    AppTheme {
+        HistorySection()
     }
 }

@@ -20,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import ph.edu.auf.gorospe.patrickjason.projectacart.navigation.AppNavigation
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.BottomNavigationBar
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.loginscreen.LoginScreen
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen.RegistrationScreen
@@ -38,17 +40,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
+                val navController = rememberNavController()
+                //SET ANDROID STATUS BAR COLOR
+//                SetBarColor(color = AppTheme.colorScheme.background)
                 Scaffold(
-//                    topBar = { MyTopAppBar(title = "Project A Cart", showActionButton = false) }, TEST ONLY
-//                    bottomBar = { BottomNavigationBar() }, TEST ONLY
+
                     modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen() //TEST ONLY
-//                    RegistrationScreen() //TEST ONLY
-//                    LoginScreen() //TEST ONLY
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
+
+                    AppNavigation(navController = navController)
                 }
             }
         }
