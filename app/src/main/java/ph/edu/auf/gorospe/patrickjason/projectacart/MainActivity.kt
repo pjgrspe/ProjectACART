@@ -33,20 +33,28 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.text
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.topappbar.MyTopAppBar
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class MainActivity : ComponentActivity() {
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        }
+
         setContent {
             AppTheme {
                 val navController = rememberNavController()
-                //SET ANDROID STATUS BAR COLOR
-//                SetBarColor(color = AppTheme.colorScheme.background)
-                Scaffold(
-
-                    modifier = Modifier.fillMaxSize()) { innerPadding ->
-
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavigation(navController = navController)
                 }
             }

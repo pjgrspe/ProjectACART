@@ -35,12 +35,28 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldDark
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Location
+import androidx.compose.runtime.LaunchedEffect
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import android.location.Geocoder
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchSection() {
+fun SearchSection(context: Context) {
     var pickupPoint by remember { mutableStateOf("") }
     var destination by remember { mutableStateOf("") }
+    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+
+    LaunchedEffect(Unit) {
+        getCurrentLocation(fusedLocationClient, context) { address ->
+            pickupPoint = address
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -86,6 +102,18 @@ fun SearchSection() {
                     tint = Color.White
                 )
             }
+        }
+    }
+}
+
+@SuppressLint("MissingPermission")
+fun getCurrentLocation(fusedLocationClient: FusedLocationProviderClient, context: Context, onAddressReceived: (String) -> Unit) {
+    fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+        location?.let {
+            val geocoder = Geocoder(context, Locale.getDefault())
+            val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+            val address = addresses?.get(0)?.getAddressLine(0) ?: "Unknown location"
+            onAddressReceived(address)
         }
     }
 }

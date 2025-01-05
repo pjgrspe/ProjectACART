@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.storage)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,4 +77,10 @@ dependencies {
     implementation(libs.android)
     // If you're using compose also add the compose extension
     implementation(libs.maps.compose)
+
+    //google location
+    implementation(libs.play.services.location.v2101)
+    implementation(libs.android.v1040)
+
+
 }

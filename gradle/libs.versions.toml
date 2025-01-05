@@ -2,6 +2,7 @@
 accompanistSystemuicontroller = "0.28.0"
 agp = "8.7.2"
 android = "11.9.0"
+androidVersion = "10.4.0"
 autofill = "2.7.0"
 discover = "2.7.0"
 kotlin = "1.9.0"
@@ -14,13 +15,17 @@ activityCompose = "1.9.3"
 composeBom = "2024.04.01"
 mapsCompose = "11.9.0"
 placeAutocomplete = "2.7.0"
+playServicesLocationVersion = "21.0.1"
 storage = "1.5.0"
 navigationCompose = "2.8.5"
+navigationRuntimeKtx = "2.8.5"
+playServicesLocation = "21.3.0"
 
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 android = { module = "com.mapbox.maps:android", version.ref = "android" }
+android-v1040 = { module = "com.mapbox.maps:android", version.ref = "androidVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 autofill = { module = "com.mapbox.search:autofill", version.ref = "autofill" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -41,11 +46,15 @@ mapbox-search-android = { module = "com.mapbox.search:mapbox-search-android", ve
 mapbox-search-android-ui = { module = "com.mapbox.search:mapbox-search-android-ui", version.ref = "autofill" }
 maps-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapsCompose" }
 offline = { module = "com.mapbox.search:offline", version.ref = "autofill" }
+play-services-location-v2101 = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocationVersion" }
+plugin-locationcomponent = { module = "com.mapbox.maps:plugin-locationcomponent", version.ref = "androidVersion" }
 search-discover = { module = "com.mapbox.search:discover", version.ref = "discover" }
 search-place-autocomplete = { module = "com.mapbox.search:place-autocomplete", version.ref = "placeAutocomplete" }
 
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 
 [plugins]
