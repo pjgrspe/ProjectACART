@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501369516449",
+    "project_id": "projectacart-48955",
+    "storage_bucket": "projectacart-48955.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501369516449:android:9152698b8e8b57a0931be0",
+        "android_client_info": {
+          "package_name": "ph.edu.auf.gorospe.patrickjason.projectacart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYGHKZ5McwJ49k8fx9-QHDJskZRwRB00M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
