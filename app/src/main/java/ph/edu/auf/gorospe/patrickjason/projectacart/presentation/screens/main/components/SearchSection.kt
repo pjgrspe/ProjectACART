@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -32,6 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
+import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldDark
+import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,33 +46,35 @@ fun SearchSection() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .background(Color.Black, shape = RoundedCornerShape(16.dp))
+            .background(AppTheme.colorScheme.onBackground, shape = RoundedCornerShape(16.dp))
             .padding(16.dp)
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
         // StyledTextField for Pickup Point
-        StyledTextField(
+        StyledTextFieldDark(
             value = pickupPoint,
             onValueChange = { pickupPoint = it }, // Update the state
             label = "Pickup Point",
-            leadingIcon = Icons.Default.Person, // Replace with a suitable icon
+            leadingIcon = Icons.Default.Home, // Replace with a suitable icon
             leadingIconContentDescription = "Pickup Icon",
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // StyledTextField for Destination
-        StyledTextField(
+        StyledTextFieldDark(
             value = destination,
             onValueChange = { destination = it }, // Update the state
             label = "Destination",
-            leadingIcon = Icons.Default.Person, // Replace with a suitable icon
+            leadingIcon = Icons.Default.LocationOn, // Replace with a suitable icon
             leadingIconContentDescription = "Destination Icon",
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = AppTheme.sizes.small),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
