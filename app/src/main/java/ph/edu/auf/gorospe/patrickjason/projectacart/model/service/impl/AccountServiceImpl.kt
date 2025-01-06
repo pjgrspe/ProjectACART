@@ -54,8 +54,16 @@ class AccountServiceImpl @Inject constructor(
             onFailure(e)
         }
     }
-    override suspend fun signOut() {
-        Firebase.auth.signOut()
+    override suspend fun signOut(
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        try {
+            Firebase.auth.signOut()
+            onSuccess()
+        } catch (e: Exception) {
+            onFailure(e)
+        }
     }
 
     private suspend fun getUserFromFirestore(uid: String): User {

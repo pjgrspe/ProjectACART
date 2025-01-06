@@ -15,7 +15,10 @@ interface AccountService {
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     )
-    suspend fun signOut()
+    suspend fun signOut(
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    )
     suspend fun registerUser(
         name: String,
         username: String,

@@ -19,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import ph.edu.auf.gorospe.patrickjason.projectacart.R
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.impl.AccountServiceImpl
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.PrimaryButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
 
@@ -29,6 +31,7 @@ fun LoginScreen(navcontroller: NavController) {
     val auth = FirebaseAuth.getInstance()
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+    val accountService = AccountServiceImpl(FirebaseFirestore.getInstance())
 
     // Credentials
     var email by remember { mutableStateOf("") }
@@ -99,17 +102,28 @@ fun LoginScreen(navcontroller: NavController) {
 
                 if (emailError == null && passwordError == null) {
                     coroutineScope.launch {
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    navcontroller.navigate("main")
-                                } else {
-                                    showCustomErrorToast(
-                                        context,
-                                        "Incorrect email or password"
-                                    )
-                                }
+//                        auth.signInWithEmailAndPassword(email, password)
+//                            .addOnCompleteListener { task ->
+//                                if (task.isSuccessful) {
+//                                    navcontroller.navigate("main")
+//                                } else {
+//                                    showCustomErrorToast(
+//                                        context,
+//                                        "Incorrect email or password"
+//                                    )
+//                                }
+//                            }
+                        accountService.signIn(
+                            email,
+                            password,
+                            onSuccess = { navcontroller.navigate("main") },
+                            onFailure = {
+                                showCustomErrorToast(
+                                    context,
+                                    "Incorrect email or password"
+                                )
                             }
+                        )
                     }
                 }
             }
