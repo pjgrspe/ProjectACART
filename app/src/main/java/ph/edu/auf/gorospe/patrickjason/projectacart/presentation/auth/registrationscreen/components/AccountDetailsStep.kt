@@ -24,6 +24,17 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.PrimaryButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
 
+// Extension function to check for special characters
+fun String.containsSpecialCharacters(): Boolean {
+    val specialChars = """[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]""".toRegex()
+    return this.contains(specialChars)
+}
+
+// Extension function to check if string contains only letters and spaces
+fun String.containsOnlyLettersAndSpaces(): Boolean {
+    return this.all { it.isLetter() || it.isWhitespace() }
+}
+
 @Composable
 fun AccountDetailsStep(
     onNext: () -> Unit,
@@ -58,6 +69,7 @@ fun AccountDetailsStep(
     val context = LocalContext.current
 
     val isFormValid = name.isNotBlank() &&
+            name.containsOnlyLettersAndSpaces() &&
             username.length >= 6 &&
             android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() &&
             password.length >= 6 &&
@@ -66,12 +78,17 @@ fun AccountDetailsStep(
             password.any { !it.isLetterOrDigit() } &&
             password == confirmpassword &&
             phoneNumber.length in 10..15 &&
+            phoneNumber.all { it.isDigit() } &&
             isChecked
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         StyledTextField(
             value = name,
-            onValueChange = onNameChange,
+            onValueChange = { newValue ->
+                if (newValue.containsOnlyLettersAndSpaces() || newValue.isEmpty()) {
+                    onNameChange(newValue)
+                }
+            },
             label = "Name",
             leadingIcon = Icons.Default.Person,
             leadingIconContentDescription = "Name Icon",
@@ -125,7 +142,7 @@ fun AccountDetailsStep(
             label = "Re-enter Password",
             leadingIcon = Icons.Default.Lock,
             leadingIconContentDescription = "Password Icon",
-            trailingIcon = if (passwordVisible) ImageVector.vectorResource(id = R.drawable.eye) else ImageVector.vectorResource(id = R.drawable.eye),
+            trailingIcon = if (confirmPasswordVisible) ImageVector.vectorResource(id = R.drawable.eye) else ImageVector.vectorResource(id = R.drawable.eye),
             trailingIconContentDescription = if (confirmPasswordVisible) "Hide Password" else "Show Password",
             onTrailingIconClick = { confirmPasswordVisible = !confirmPasswordVisible },
             visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -136,7 +153,11 @@ fun AccountDetailsStep(
 
         StyledTextField(
             value = phoneNumber,
-            onValueChange = onPhoneNumberChange,
+            onValueChange = { newValue ->
+                if (newValue.all { it.isDigit() } || newValue.isEmpty()) {
+                    onPhoneNumberChange(newValue)
+                }
+            },
             label = "Phone Number",
             leadingIcon = Icons.Default.Phone,
             leadingIconContentDescription = "Phone Number Icon",
@@ -160,7 +181,12 @@ fun AccountDetailsStep(
             onClick = {
                 isSubmitPressed = true
 
-                nameError = if (name.isBlank()) "Name cannot be empty" else null
+                nameError = when {
+                    name.isBlank() -> "Name cannot be empty"
+                    !name.containsOnlyLettersAndSpaces() -> "Name can only contain letters"
+                    else -> null
+                }
+
                 usernameError = if (username.length < 6) "Username must be at least 6 characters" else null
                 emailError = if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     "Invalid email address"
@@ -173,7 +199,12 @@ fun AccountDetailsStep(
                     else -> null
                 }
                 confirmPasswordError = if (password != confirmpassword) "Passwords do not match" else null
-                phoneNumberError = if (phoneNumber.length !in 10..15) "Phone number must be 10-15 digits" else null
+                phoneNumberError = when {
+                    phoneNumber.isEmpty() -> "Phone number is required"
+                    !phoneNumber.all { it.isDigit() } -> "Phone number must contain only digits"
+                    phoneNumber.length !in 10..15 -> "Phone number must be 10-15 digits"
+                    else -> null
+                }
 
                 if (!isChecked) {
                     showCustomErrorToast(context, "You must accept the Terms and Privacy Policy")
@@ -201,4 +232,3 @@ fun showCustomErrorToast(context: android.content.Context, message: String) {
     layout.findViewById<TextView>(R.id.toast_message).text = message
     toast.show()
 }
-
