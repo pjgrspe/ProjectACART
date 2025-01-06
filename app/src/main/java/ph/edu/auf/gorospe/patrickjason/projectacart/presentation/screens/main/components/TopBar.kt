@@ -27,11 +27,12 @@ fun TopBar() {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Logo
-        Icon(
-            painter = painterResource(id = R.drawable.ic_logo),
+        // App Logo
+        Image(
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = "App Logo",
-            tint = Color.Black
+            modifier = Modifier
+                .size(80.dp)
         )
 
         Row(

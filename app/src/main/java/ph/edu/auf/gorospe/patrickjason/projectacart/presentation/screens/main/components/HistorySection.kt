@@ -93,11 +93,3 @@ fun HistorySectionPreview() {
         HistorySection { _, _ -> }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun HistorySectionPreview() {
-    AppTheme {
-        HistorySection()
-    }
-}

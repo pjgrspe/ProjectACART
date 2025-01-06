@@ -24,22 +24,12 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.FirebaseApp
 import ph.edu.auf.gorospe.patrickjason.projectacart.navigation.AppNavigation
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.BottomNavigationBar
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.loginscreen.LoginScreen
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen.RegistrationScreen
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.welcomescreen.WelcomeScreen
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldDark
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextFieldLight
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.topappbar.MyTopAppBar
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
-import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.MainScreen
 
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient

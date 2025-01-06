@@ -54,13 +54,12 @@ fun WelcomeScreen(navController: NavController) {
             ) {
                 // App Logo
                 Image(
-                    painter = painterResource(id = R.drawable.ic_logo),
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "App Logo",
                     modifier = Modifier
-                        .size(80.dp)
+                        .size(200.dp)
                         .align(Alignment.Start)  // Added alignment to ensure logo stays left-aligned
                 )
-                Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = "Plan your next commute",
                     style = AppTheme.typography.h1,

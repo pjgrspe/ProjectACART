@@ -1,24 +1,26 @@
 package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import android.view.LayoutInflater
+import android.widget.TextView
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import ph.edu.auf.gorospe.patrickjason.projectacart.R
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.buttons.PrimaryButton
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.components.textfields.StyledTextField
 
@@ -38,37 +40,64 @@ fun AccountDetailsStep(
     phoneNumber: String,
     onPhoneNumberChange: (String) -> Unit
 ) {
+    val auth = FirebaseAuth.getInstance()
+    val firestore = FirebaseFirestore.getInstance()
+
+    // Validation errors
+    var nameError by remember { mutableStateOf<String?>(null) }
+    var usernameError by remember { mutableStateOf<String?>(null) }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
+    var confirmPasswordError by remember { mutableStateOf<String?>(null) }
+    var phoneNumberError by remember { mutableStateOf<String?>(null) }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var confirmPasswordVisible by remember { mutableStateOf(false) }
+    var isSubmitPressed by remember { mutableStateOf(false) }
+    var isChecked by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
+    val isFormValid = name.isNotBlank() &&
+            username.length >= 6 &&
+            android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() &&
+            password.length >= 6 &&
+            password.any { it.isUpperCase() } &&
+            password.any { it.isLowerCase() } &&
+            password.any { !it.isLetterOrDigit() } &&
+            password == confirmpassword &&
+            phoneNumber.length in 10..15 &&
+            isChecked
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        // Name Field
         StyledTextField(
             value = name,
             onValueChange = onNameChange,
             label = "Name",
             leadingIcon = Icons.Default.Person,
-            leadingIconContentDescription = "Username Icon"
+            leadingIconContentDescription = "Name Icon",
+            error = if (isSubmitPressed) nameError else null
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-
-        // Username Field
         StyledTextField(
             value = username,
             onValueChange = onUsernameChange,
             label = "Username",
             leadingIcon = Icons.Default.Person,
-            leadingIconContentDescription = "Username Icon"
+            leadingIconContentDescription = "Username Icon",
+            error = if (isSubmitPressed) usernameError else null
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Email Field
         StyledTextField(
             value = email,
             onValueChange = onEmailChange,
             label = "Email",
             leadingIcon = Icons.Default.Email,
-            leadingIconContentDescription = "Email Icon"
+            leadingIconContentDescription = "Email Icon",
+            error = if (isSubmitPressed) emailError else null
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -79,35 +108,43 @@ fun AccountDetailsStep(
             onValueChange = onPasswordChange,
             label = "Password",
             leadingIcon = Icons.Default.Lock,
-            leadingIconContentDescription = "Password Icon"
+            leadingIconContentDescription = "Password Icon",
+            trailingIcon = if (passwordVisible) ImageVector.vectorResource(id = R.drawable.eye) else ImageVector.vectorResource(id = R.drawable.eye),
+            trailingIconContentDescription = if (passwordVisible) "Hide Password" else "Show Password",
+            onTrailingIconClick = { passwordVisible = !passwordVisible },
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            error = if (isSubmitPressed) passwordError else null
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Re-enter Password Field
+        // Confirm Password Field
         StyledTextField(
             value = confirmpassword,
             onValueChange = onConfirmPasswordChange,
             label = "Re-enter Password",
             leadingIcon = Icons.Default.Lock,
-            leadingIconContentDescription = "Password Icon"
+            leadingIconContentDescription = "Password Icon",
+            trailingIcon = if (passwordVisible) ImageVector.vectorResource(id = R.drawable.eye) else ImageVector.vectorResource(id = R.drawable.eye),
+            trailingIconContentDescription = if (confirmPasswordVisible) "Hide Password" else "Show Password",
+            onTrailingIconClick = { confirmPasswordVisible = !confirmPasswordVisible },
+            visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            error = if (isSubmitPressed) confirmPasswordError else null
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Phone Number Field
         StyledTextField(
             value = phoneNumber,
             onValueChange = onPhoneNumberChange,
             label = "Phone Number",
             leadingIcon = Icons.Default.Phone,
-            leadingIconContentDescription = "Phone Number Icon"
+            leadingIconContentDescription = "Phone Number Icon",
+            error = if (isSubmitPressed) phoneNumberError else null
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var isChecked by remember { mutableStateOf(false) }
-        // Terms and Conditions Checkbox
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = isChecked,
@@ -118,10 +155,50 @@ fun AccountDetailsStep(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Next Button using custom PrimaryButton
         PrimaryButton(
             label = "Continue",
-            onClick = onNext
+            onClick = {
+                isSubmitPressed = true
+
+                nameError = if (name.isBlank()) "Name cannot be empty" else null
+                usernameError = if (username.length < 6) "Username must be at least 6 characters" else null
+                emailError = if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    "Invalid email address"
+                } else null
+                passwordError = when {
+                    password.length < 6 -> "Password must be at least 6 characters"
+                    !password.any { it.isUpperCase() } -> "Password must contain an uppercase letter"
+                    !password.any { it.isLowerCase() } -> "Password must contain a lowercase letter"
+                    !password.any { !it.isLetterOrDigit() } -> "Password must contain a special character"
+                    else -> null
+                }
+                confirmPasswordError = if (password != confirmpassword) "Passwords do not match" else null
+                phoneNumberError = if (phoneNumber.length !in 10..15) "Phone number must be 10-15 digits" else null
+
+                if (!isChecked) {
+                    showCustomErrorToast(context, "You must accept the Terms and Privacy Policy")
+                }
+
+                if (isFormValid) {
+                    onNext()
+                }
+            },
+            enabled = true
         )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
+
+// Custom error toast
+fun showCustomErrorToast(context: android.content.Context, message: String) {
+    val inflater = LayoutInflater.from(context)
+    val layout = inflater.inflate(R.layout.custom_error_toast, null)
+
+    val toast = Toast(context)
+    toast.view = layout
+    toast.duration = Toast.LENGTH_SHORT
+
+    layout.findViewById<TextView>(R.id.toast_message).text = message
+    toast.show()
+}
+

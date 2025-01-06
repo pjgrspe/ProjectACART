@@ -43,6 +43,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
 import android.location.Geocoder
+import android.util.Log
+import java.io.IOException
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -108,12 +110,26 @@ fun SearchSection(context: Context) {
 
 @SuppressLint("MissingPermission")
 fun getCurrentLocation(fusedLocationClient: FusedLocationProviderClient, context: Context, onAddressReceived: (String) -> Unit) {
-    fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-        location?.let {
-            val geocoder = Geocoder(context, Locale.getDefault())
-            val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-            val address = addresses?.get(0)?.getAddressLine(0) ?: "Unknown location"
-            onAddressReceived(address)
+    try {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                try {
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    val address = addresses?.get(0)?.getAddressLine(0) ?: "Unknown location"
+                    onAddressReceived(address)
+                } catch (e: IOException) {
+                    Log.e("getCurrentLocation", "Geocoding failed: ${e.message}")
+                    onAddressReceived("Geocoding failed: ${e.message}")                }
+            } ?: run {
+                onAddressReceived("Location not available")
+            }
+        }.addOnFailureListener { e ->
+            Log.e("getCurrentLocation", "Failed to get location: ${e.message}")
+            onAddressReceived("Failed to get location")
         }
+    } catch (e: Exception) {
+        Log.e("getCurrentLocation", "An error occurred: ${e.message}")
+        onAddressReceived("An error occurred")
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
@@ -29,12 +30,15 @@ fun StyledTextField(
     leadingIconContentDescription: String? = null,
     trailingIcon: ImageVector? = null,
     trailingIconContentDescription: String? = null,
+    onTrailingIconClick: (() -> Unit)? = null, // Add this parameter
+    error: String? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .padding(horizontal = AppTheme.sizes.small) // Ensure it respects the parent's width
-    ) { // Ensure it takes the parent's full width
-        // Static label text above the text field
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = AppTheme.sizes.small)
+    ) {
         Text(
             text = label,
             color = AppTheme.colorScheme.onBackground,
@@ -50,11 +54,13 @@ fun StyledTextField(
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = AppTheme.colorScheme.background,
                 focusedTextColor = AppTheme.colorScheme.onBackground,
-                focusedBorderColor = AppTheme.colorScheme.onBackground,
-                unfocusedBorderColor = AppTheme.colorScheme.onBackground
+                unfocusedTextColor = AppTheme.colorScheme.onBackground,
+                focusedBorderColor = if (error == null) AppTheme.colorScheme.onBackground else MaterialTheme.colorScheme.error,
+                unfocusedBorderColor = if (error == null) AppTheme.colorScheme.onBackground else MaterialTheme.colorScheme.error
             ),
-            singleLine = true, // Restrict to a single line
-            maxLines = 1, // Prevent vertical overflow
+            singleLine = true,
+            maxLines = 1,
+            visualTransformation = visualTransformation,
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = {
                 if (leadingIcon != null) {
@@ -67,16 +73,27 @@ fun StyledTextField(
                 }
             },
             trailingIcon = {
-                if (trailingIcon != null) {
-                    Icon(
-                        imageVector = trailingIcon,
-                        contentDescription = trailingIconContentDescription,
-                        tint = AppTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(AppTheme.sizes.medium)
-                    )
+                if (trailingIcon != null && onTrailingIconClick != null) {
+                    IconButton(onClick = onTrailingIconClick) {
+                        Icon(
+                            imageVector = trailingIcon,
+                            contentDescription = trailingIconContentDescription,
+                            tint = AppTheme.colorScheme.onBackground,
+                            modifier = Modifier.size(AppTheme.sizes.medium)
+                        )
+                    }
                 }
             }
         )
+
+        if (error != null) {
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error,
+                style = AppTheme.typography.body2,
+                modifier = Modifier.padding(top = AppTheme.sizes.small)
+            )
+        }
     }
 }
 
@@ -91,6 +108,7 @@ fun StyledTextFieldLight(
     leadingIconContentDescription: String? = null,
     trailingIcon: ImageVector? = null,
     trailingIconContentDescription: String? = null,
+    error: String? = null, // Added error parameter
 ) {
     MaterialTheme(colorScheme = lightColorScheme()) {
         StyledTextField(
@@ -102,7 +120,8 @@ fun StyledTextFieldLight(
             leadingIcon = leadingIcon,
             leadingIconContentDescription = leadingIconContentDescription,
             trailingIcon = trailingIcon,
-            trailingIconContentDescription = trailingIconContentDescription
+            trailingIconContentDescription = trailingIconContentDescription,
+            error = error
         )
     }
 }
@@ -118,6 +137,7 @@ fun StyledTextFieldDark(
     leadingIconContentDescription: String? = null,
     trailingIcon: ImageVector? = null,
     trailingIconContentDescription: String? = null,
+    error: String? = null, // Added error parameter
 ) {
     AppTheme(isDarkTheme = true) {
         StyledTextField(
@@ -129,7 +149,8 @@ fun StyledTextFieldDark(
             leadingIcon = leadingIcon,
             leadingIconContentDescription = leadingIconContentDescription,
             trailingIcon = trailingIcon,
-            trailingIconContentDescription = trailingIconContentDescription
+            trailingIconContentDescription = trailingIconContentDescription,
+            error = error
         )
     }
 }
@@ -138,7 +159,6 @@ fun StyledTextFieldDark(
 @Composable
 fun StyledTextFieldPreview() {
     AppTheme {
-        // State to hold the text field value
         var textValue by remember { mutableStateOf("") }
 
         Column(
@@ -154,7 +174,8 @@ fun StyledTextFieldPreview() {
                 leadingIcon = Icons.Default.Person,
                 leadingIconContentDescription = "Leading Done Icon",
                 trailingIcon = Icons.Default.Done,
-                trailingIconContentDescription = "Trailing Done Icon"
+                trailingIconContentDescription = "Trailing Done Icon",
+                error = if (textValue.isBlank()) "Field cannot be empty" else null
             )
             StyledTextFieldLight(
                 value = textValue,
@@ -163,7 +184,8 @@ fun StyledTextFieldPreview() {
                 leadingIcon = Icons.Default.Person,
                 leadingIconContentDescription = "Leading Done Icon",
                 trailingIcon = Icons.Default.Done,
-                trailingIconContentDescription = "Trailing Done Icon"
+                trailingIconContentDescription = "Trailing Done Icon",
+                error = if (textValue.isBlank()) "Field cannot be empty" else null
             )
             StyledTextFieldDark(
                 value = textValue,
@@ -172,9 +194,9 @@ fun StyledTextFieldPreview() {
                 leadingIcon = Icons.Default.Person,
                 leadingIconContentDescription = "Leading Done Icon",
                 trailingIcon = Icons.Default.Done,
-                trailingIconContentDescription = "Trailing Done Icon"
+                trailingIconContentDescription = "Trailing Done Icon",
+                error = if (textValue.isBlank()) "Field cannot be empty" else null
             )
         }
     }
 }
-
