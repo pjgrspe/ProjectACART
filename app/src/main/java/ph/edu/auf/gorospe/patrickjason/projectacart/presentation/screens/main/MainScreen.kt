@@ -31,8 +31,7 @@ fun MainScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetScaffoldState()
     var bottomSheetContent by remember { mutableStateOf<Pair<String, String>?>(null) }
-
-
+    var destination by remember { mutableStateOf("") }
 
     BottomSheetScaffold(
         scaffoldState = sheetState,
@@ -54,8 +53,14 @@ fun MainScreen(navController: NavController) {
         ) {
             item { Spacer(modifier = Modifier.height(16.dp))
                 TopBar() }
-            item { SearchSection(context) }
-            item { MapArea(context) }
+            item { SearchSection(context, destination) { address ->
+                destination = address
+            } }
+            item {
+                MapArea(context) { address ->
+                    destination = address
+                }
+            }
             item {
                 HistorySection(onColumnClick = { time, route ->
                     coroutineScope.launch {
