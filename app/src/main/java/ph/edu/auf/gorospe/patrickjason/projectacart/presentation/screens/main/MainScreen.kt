@@ -78,9 +78,10 @@ fun BottomSheetContent(context: Context, time: String, route: String) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+        // Title
         Text(
-            text = "Trip Details",
-            style = typography.h3,
+            text = "Route History Details",
+            style = typography.h4,
             color = PrimaryDarker,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -88,71 +89,142 @@ fun BottomSheetContent(context: Context, time: String, route: String) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Route and Time Section
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Route:",
+                    style = typography.body1,
+                    color = GrayMedium
+                )
+                Text(
+                    text = route,
+                    style = typography.h6,
+                    color = PrimaryDarker
+                )
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = "Time Taken:",
+                    style = typography.body1,
+                    color = GrayMedium
+                )
+                Text(
+                    text = "$travelDurationMinutes min $travelDurationSeconds sec",
+                    style = typography.h6,
+                    color = PrimaryDarker
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Departure and Arrival Points
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            // Departure Point
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Place,
+                    contentDescription = "Departure",
+                    modifier = Modifier.size(24.dp),
+                    tint = PrimaryDarker
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Angeles University Foundation",
+                    style = typography.body1,
+                    color = PrimaryDarker
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Vertical Connector
+            Box(
+                modifier = Modifier
+                    .width(2.dp)
+                    .height(50.dp)
+                    .background(GrayMedium)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Arrival Point
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Place,
+                    contentDescription = "Arrival",
+                    modifier = Modifier.size(24.dp),
+                    tint = PrimaryDarker
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "SM City Clark",
+                    style = typography.body1,
+                    color = PrimaryDarker
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Additional Details (Context of History)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
         ) {
             Text(
-                text = time,
-                style = typography.h1,
-                fontSize = 40.sp,
+                text = "Additional Information:",
+                style = typography.h6,
                 color = PrimaryDarker
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             Text(
-                text = "$travelDurationMinutes minutes and $travelDurationSeconds seconds",
-                style = typography.subtitle2,
-                color = GrayMedium,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                text = "• Last Used: 2 days ago",
+                style = typography.body2,
+                color = GrayMedium
+            )
+            Text(
+                text = "• Total Times Used: 5",
+                style = typography.body2,
+                color = GrayMedium
+            )
+            Text(
+                text = "• Notes: This route avoids major traffic zones",
+                style = typography.body2,
+                color = GrayMedium
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+        // Footer for Actions (Optional)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Point A (Departure)
-            Icon(
-                imageVector = Icons.Default.Place,
-                contentDescription = "Departure",
-                modifier = Modifier.size(36.dp),
-                tint = PrimaryDarker
-            )
-            Text(
-                text = "Angeles University Foundation",
-                style = typography.body2,
-                color = PrimaryDarker,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Vertical Line (connecting Point A and Point B)
-            Box(
-                modifier = Modifier
-                    .width(2.dp)
-                    .height(100.dp)
-                    .background(Color.LightGray)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Point B (Arrival)
-            Icon(
-                imageVector = Icons.Default.Place,
-                contentDescription = "Arrival",
-                modifier = Modifier.size(36.dp),
-                tint = PrimaryDarker
-            )
-            Text(
-                text = "SM City Clark",
-                style = typography.body2,
-                color = PrimaryDarker,
-                textAlign = TextAlign.Center
-            )
+            TextButton(onClick = { /* TODO: Handle Edit */ }) {
+                Text(text = "Edit", color = PrimaryDarker)
+            }
+            TextButton(onClick = { /* TODO: Handle Delete */ }) {
+                Text(text = "Delete", color = Color.Red)
+            }
         }
     }
 }
+
 
 
 @Preview(showBackground = true)
