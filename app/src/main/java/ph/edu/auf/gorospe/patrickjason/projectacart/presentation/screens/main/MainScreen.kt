@@ -15,7 +15,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.impl.AccountServiceImpl
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.impl.BookingServiceImpl
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.HistorySection
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.MapArea
 import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components.SearchSection
@@ -27,6 +30,8 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.PrimaryDarker
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController) {
+    val accountService = AccountServiceImpl(FirebaseFirestore.getInstance())
+    val bookingService = BookingServiceImpl(FirebaseFirestore.getInstance())
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetScaffoldState()
@@ -52,8 +57,8 @@ fun MainScreen(navController: NavController) {
                 .background(Color(0xFFFFF7E8))
         ) {
             item { Spacer(modifier = Modifier.height(16.dp))
-                TopBar() }
-            item { SearchSection(context, destination) { address ->
+                TopBar(accountService, coroutineScope, navController, context) }
+            item { SearchSection(context, destination, accountService ,bookingService) { address ->
                 destination = address
             } }
             item {

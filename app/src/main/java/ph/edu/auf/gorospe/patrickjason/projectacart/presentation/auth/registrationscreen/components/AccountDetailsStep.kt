@@ -75,7 +75,6 @@ fun AccountDetailsStep(
             password.length >= 6 &&
             password.any { it.isUpperCase() } &&
             password.any { it.isLowerCase() } &&
-            password.any { !it.isLetterOrDigit() } &&
             password == confirmpassword &&
             phoneNumber.length in 10..15 &&
             phoneNumber.all { it.isDigit() } &&
@@ -195,7 +194,6 @@ fun AccountDetailsStep(
                     password.length < 6 -> "Password must be at least 6 characters"
                     !password.any { it.isUpperCase() } -> "Password must contain an uppercase letter"
                     !password.any { it.isLowerCase() } -> "Password must contain a lowercase letter"
-                    !password.any { !it.isLetterOrDigit() } -> "Password must contain a special character"
                     else -> null
                 }
                 confirmPasswordError = if (password != confirmpassword) "Passwords do not match" else null

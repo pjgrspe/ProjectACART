@@ -27,9 +27,12 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.navigation.AppNavigation
 import ph.edu.auf.gorospe.patrickjason.projectacart.ui.theme.AppTheme
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.compose.runtime.LaunchedEffect
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.FirebaseFirestore
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.impl.AccountServiceImpl
 
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -47,11 +50,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 val navController = rememberNavController()
+                val accountService = AccountServiceImpl(FirebaseFirestore.getInstance())
+
                 //SetBarColor(color = AppTheme.colorScheme.background)
-                Scaffold(
-                    modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppNavigation(navController = navController)
+                LaunchedEffect(Unit) {
+                    if (!accountService.hasUser()) {
+                        navController.navigate("welcome")
+                    }
                 }
+                AppNavigation(navController = navController, accountService = accountService)
             }
         }
     }

@@ -1,5 +1,7 @@
 package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.components
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,10 +18,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import ph.edu.auf.gorospe.patrickjason.projectacart.R
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.AccountService
 
 @Composable
-fun TopBar() {
+fun TopBar(accountService: AccountService, coroutineScope: CoroutineScope, navController: NavController, context: Context) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,7 +55,18 @@ fun TopBar() {
             }
 
             // User Profile Icon
-            IconButton(onClick = { /* TODO: User Profile */ }) {
+            IconButton(onClick = {
+                coroutineScope.launch {
+                    accountService.signOut(
+                        onSuccess = {
+                            Toast.makeText(context, "User Signed Out", Toast.LENGTH_SHORT).show()
+                            navController.navigate("welcome")
+                        },
+                        onFailure = { Toast.makeText(context, "Error Signing out", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Filled.Person,
                     contentDescription = "User Profile",

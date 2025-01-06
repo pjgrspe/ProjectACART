@@ -44,12 +44,22 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
 import android.location.Geocoder
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.runtime.rememberCoroutineScope
+import com.google.type.DateTime
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.AccountService
+import ph.edu.auf.gorospe.patrickjason.projectacart.model.service.BookingService
 import java.io.IOException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchSection(context: Context, destination: String, onLocationSelected: (String) -> Unit) {
+fun SearchSection(context: Context, destination: String, accountService: AccountService,bookingService: BookingService, onLocationSelected: (String) -> Unit) {
+    val coroutineScope = rememberCoroutineScope()
     var pickupPoint by remember { mutableStateOf("") }
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
 
@@ -96,7 +106,22 @@ fun SearchSection(context: Context, destination: String, onLocationSelected: (St
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("14:00", color = Color.White)
-            IconButton(onClick = { /* TODO: Settings */ }) {
+            IconButton(onClick = {
+                if (destination.isNotBlank() && pickupPoint.isNotBlank()) {
+                    val currentDateTime = LocalDateTime.now()
+                    val formattedDateTime = currentDateTime.format(DateTimeFormatter.ISO_DATE_TIME)
+                    coroutineScope.launch {
+                        bookingService.addBookingHistory(
+                            userId = accountService.currentUserId,
+                            timeBooked = formattedDateTime,
+                            start = pickupPoint,
+                            destination = destination,
+                            onSuccess = {Toast.makeText(context, "Booking Added", Toast.LENGTH_SHORT).show() },
+                            onFailure = {Toast.makeText(context, "Booking Error", Toast.LENGTH_SHORT).show() }
+                        )
+                    }
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowForward,
                     contentDescription = "Enter",

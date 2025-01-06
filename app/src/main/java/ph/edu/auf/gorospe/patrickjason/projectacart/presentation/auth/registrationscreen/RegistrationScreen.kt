@@ -1,6 +1,7 @@
 package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrationscreen
 
 import android.graphics.Bitmap
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +35,7 @@ import ph.edu.auf.gorospe.patrickjason.projectacart.presentation.auth.registrati
 fun RegistrationScreen(
     navController: NavController
 ) {
+    val context = LocalContext.current
     val accountService = AccountServiceImpl(FirebaseFirestore.getInstance())
     val coroutineScope = rememberCoroutineScope()
     var currentStep by remember { mutableStateOf(1) }
@@ -115,7 +118,8 @@ fun RegistrationScreen(
                                     phoneNumber,
                                     profilePictureBitmap,
                                     onSuccess = { navController.navigate("main") },
-                                    onFailure = { /* Handle error */ }
+                                    onFailure = { Toast.makeText(context, "Registration Error", Toast.LENGTH_SHORT).show()
+                                    }
                                 )
                             }
                         }
