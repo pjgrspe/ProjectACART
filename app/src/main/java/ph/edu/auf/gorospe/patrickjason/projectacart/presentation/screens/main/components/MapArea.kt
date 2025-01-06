@@ -31,7 +31,10 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 
-@SuppressLint("MissingPermission")
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
+
+@SuppressLint("MissingPermission", "ClickableViewAccessibility")
 @Composable
 fun MapArea(context: Context) {
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
@@ -46,11 +49,22 @@ fun MapArea(context: Context) {
         }
     }
 
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(200.dp),
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            // Prevent scroll when interacting with map
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = { /* Consume press events */ },
+                    onTap = { /* Consume tap events */ },
+                    onDoubleTap = { /* Consume double tap events */ },
+                    onLongPress = { /* Consume long press events */ }
+                )
+            }
     ) {
         AndroidView(
+            modifier = Modifier.fillMaxSize(),
             factory = { ctx ->
                 MapView(ctx).apply {
                     mapView = this
@@ -67,9 +81,15 @@ fun MapArea(context: Context) {
                             setCamera(cameraOptions)
                         }
                     }
+                    // Disable parent scrolling when touching the map
+                    setOnTouchListener { _, _ ->
+                        parent.requestDisallowInterceptTouchEvent(true)
+                        false
+                    }
                 }
             }
         )
+
         IconButton(
             onClick = {
                 location?.let {
