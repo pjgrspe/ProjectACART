@@ -49,9 +49,8 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchSection(context: Context) {
+fun SearchSection(context: Context, destination: String, onLocationSelected: (String) -> Unit) {
     var pickupPoint by remember { mutableStateOf("") }
-    var destination by remember { mutableStateOf("") }
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
 
     LaunchedEffect(Unit) {
@@ -84,7 +83,7 @@ fun SearchSection(context: Context) {
         // StyledTextField for Destination
         StyledTextFieldDark(
             value = destination,
-            onValueChange = { destination = it }, // Update the state
+            onValueChange = { onLocationSelected(it) }, // Update the state
             label = "Destination",
             leadingIcon = Icons.Default.LocationOn, // Replace with a suitable icon
             leadingIconContentDescription = "Destination Icon",

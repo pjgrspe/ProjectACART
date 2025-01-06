@@ -2,6 +2,7 @@ package ph.edu.auf.gorospe.patrickjason.projectacart.presentation.screens.main.c
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Geocoder
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,10 +31,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import com.mapbox.maps.plugin.gestures.addOnMapClickListener
+import java.util.Locale
 
+// MapArea.kt
 @SuppressLint("MissingPermission")
 @Composable
-fun MapArea(context: Context) {
+fun MapArea(context: Context, onLocationSelected: (String) -> Unit) {
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
     var location by remember { mutableStateOf<Point?>(null) }
     var mapView: MapView? = remember { null }
@@ -65,6 +69,13 @@ fun MapArea(context: Context) {
                                 .zoom(12.5) // Initial zoom level
                                 .build()
                             setCamera(cameraOptions)
+                        }
+                        addOnMapClickListener { point ->
+                            val geocoder = Geocoder(context, Locale.getDefault())
+                            val addresses = geocoder.getFromLocation(point.latitude(), point.longitude(), 1)
+                            val address = addresses?.get(0)?.getAddressLine(0) ?: "Unknown location"
+                            onLocationSelected(address)
+                            true
                         }
                     }
                 }
